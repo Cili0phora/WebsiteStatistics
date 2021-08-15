@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <h2>User list</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th> Name </th>
+                    <th> Birth Year </th>
+                    <th> </th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${users.empty}">
+                    <td colspan="2"> No Users Yet </td>
+                </tr>
+                <tr th:each="user : ${users}">
+                    <td><span th:text="${user.name}"> Name </span></td>
+                    <td><span th:text="${user.birthYear}"> Birth Year </span></td>
+                    <td>
+                        <form method="post" th:action="@{/user/delete/{id}(id=${user.id})}" >
+                            <button  type="submit" class="btn btn-primary btn-block mt-3"> delete </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" th:action="@{/user/edit/{id}(id=${user.id})}">
+                            <button  type="submit" class="btn btn-primary btn-block mt-3"> edit </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
