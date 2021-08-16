@@ -43,7 +43,7 @@ public class UserController {
             Model model
     ) {
         UserDto dto = userService.findById(id);
-        System.out.println("edit user " + dto.getName() + " " + dto.getBirthYear());
+        System.out.println("edit user " + dto.toString());
         model.addAttribute("user", dto);
         return "edit";
     }
@@ -51,12 +51,11 @@ public class UserController {
     @PostMapping("update/{id}")
     public ModelAndView update(
             @PathVariable("id") Long id,
+            @ModelAttribute UserDto dto,
             Model model
     ) {
-        UserDto dto = userService.findById(id);
-        System.out.println("edit user " + dto.getName() + " " + dto.getBirthYear());
-        userService.edit(dto);
-        return new ModelAndView ("redirect:list");
+        userService.update(dto);
+        return new ModelAndView ("redirect:/user/list");
     }
 
     @PostMapping("delete/{id}")
@@ -65,7 +64,7 @@ public class UserController {
             Model model
     ) {
         userService.deleteById(id);
-        return new ModelAndView ("redirect:list");
+        return new ModelAndView ("redirect:/user/list");
     }
 
 

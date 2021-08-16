@@ -6,7 +6,6 @@ import org.example.webiste.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,7 +20,7 @@ public class UserService {
     }
 
     public User create(UserDto dto) {
-        System.out.println("create user " + dto.getName() + " " + dto.getBirthYear());
+        System.out.println("create user " + dto.toString());
         if (dto.getName() != null && dto.getBirthYear() != 0) {
             User user = new User(dto.getName(), dto.getBirthYear());
             return userRepository.save(user);
@@ -49,12 +48,11 @@ public class UserService {
         }
     }
 
-    public void edit(UserDto dto) {
+    public void update(UserDto dto) {
+        System.out.println("update user " + dto.toString());
         Optional<User> userOptional = userRepository.findById(dto.getId());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            System.out.println("update user " + user.getName() + " " + user.getBirthYear() + " to value " + dto.getBirthYear());
-
             user.setBirthYear(dto.getBirthYear());
             userRepository.save(user);
         } else {
