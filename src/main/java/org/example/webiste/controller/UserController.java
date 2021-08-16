@@ -31,10 +31,26 @@ public class UserController {
         return "redirect:list";
     }
 
+    /**
+     * User list endpoint. Shows user list page using search data
+     * @param dto dto for search data
+     * @return users list page
+     */
     @GetMapping("list")
-    public String showUserList(Model model) {
-        model.addAttribute("users", userService.findAll());
+    public String showUserList(
+            @ModelAttribute UserDto dto,
+            Model model
+    ) {
+        model.addAttribute("user", dto);
+        model.addAttribute("users", userService.search(dto));
 
+        return "userlist";
+    }
+
+    @GetMapping("/search")
+    public String search(@ModelAttribute UserDto dto, Model model) {
+        model.addAttribute("user", dto);
+        model.addAttribute("users", userService.search(dto));
         return "userlist";
     }
 

@@ -7,10 +7,15 @@
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-    <a href="/">Log Out</a>
     <div class="row">
         <div class="col-md-10 mx-auto">
+            <a href="/">Log Out</a>
             <h2>User list</h2>
+            <form method="get" th:action="@{/user/list}" th:object="${user}" class="input-group">
+                <input type="search" class="form-control"  placeholder="Search" th:field="*{name}" aria-label="Search"
+                       aria-describedby="search-addon">
+                <button  type="submit" class="btn btn-outline-primary"> Search </button>
+            </form>
             <table>
                 <thead>
                 <tr>

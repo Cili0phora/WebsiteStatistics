@@ -28,11 +28,6 @@ public class UserService {
         return null;
     }
 
-    public List<UserDto> findAll() {
-        List<User> users = userRepository.findAll();
-        return users.stream().map(this::toDto).collect(Collectors.toList());
-    }
-
     public void deleteById(Long id) {
         System.out.println("delete user " + id);
         userRepository.deleteById(id);
@@ -68,6 +63,16 @@ public class UserService {
             return false;
         }
         return true;
+    }
+
+    public List<UserDto> search(UserDto dto) {
+        List<User> users;
+        if (dto.getName() == null || dto.getName().trim().equals("")) {
+            users = userRepository.findAll();
+        } else {
+            users = userRepository.findByName(dto.getName());
+        }
+        return users.stream().map(this::toDto).collect(Collectors.toList());
     }
 
     private UserDto toDto(User user) {
