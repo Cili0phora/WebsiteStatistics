@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/user")
@@ -46,6 +47,21 @@ public class UserController {
         System.out.println("edit user " + dto.toString());
         model.addAttribute("user", dto);
         return "edit";
+    }
+
+    @GetMapping("/login")
+    public String showLoginPage(Model model) {
+        model.addAttribute("user", new UserDto());
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute UserDto dto, RedirectAttributes redirectAttributes) {
+        if (userService.login(dto)) {
+            return "redirect:/user/list";
+        }
+        redirectAttributes.addFlashAttribute("error", "User not found");
+        return "redirect:/user/login";
     }
 
     @PostMapping("update/{id}")

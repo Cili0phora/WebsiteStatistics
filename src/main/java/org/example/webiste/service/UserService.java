@@ -61,6 +61,15 @@ public class UserService {
 
     }
 
+    public boolean login (UserDto dto) {
+        List<User> users = userRepository.findByName(dto.getName());
+        if (users.isEmpty()) {
+            System.out.println("user not found");
+            return false;
+        }
+        return true;
+    }
+
     private UserDto toDto(User user) {
         return new UserDto(user.getId(), user.getName(), user.getBirthYear());
     }
