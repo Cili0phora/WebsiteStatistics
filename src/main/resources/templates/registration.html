@@ -16,11 +16,13 @@
                 <div class="form-row">
                     <div class="col-md-6 form-group">
                         <label>Name</label>
-                        <input type="text" class="form-control" th:field="*{name}">
+                        <input type="text" class="form-control" th:field="*{name}" maxlength="30">
+                        <p th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></p>
                     </div>
                     <div class="col-md-6 form-group">
                         <label>Birth year</label>
                         <input type="number" step="any" class="form-control" th:field="*{birthYear}">
+                        <p th:if="${#fields.hasErrors('birthYear')}" class="text-danger" th:errors="*{birthYear}"></p>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block mt-3">Save</button>

@@ -2,6 +2,7 @@ package org.example.webiste.service;
 
 import org.example.webiste.DTO.UserDto;
 import org.example.webiste.entity.User;
+import org.example.webiste.exception.UserAlreadyExistsException;
 import org.example.webiste.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User create(UserDto dto) {
+    public User create(UserDto dto) throws UserAlreadyExistsException {
         System.out.println("create user " + dto.toString());
         if (dto.getName() != null && dto.getBirthYear() != 0) {
+            if ( !userRepository.findByName(dto.getName()).isEmpty()) {
+                throw new UserAlreadyExistsException("User already exists");
+            }
             User user = new User(dto.getName(), dto.getBirthYear());
             return userRepository.save(user);
         }

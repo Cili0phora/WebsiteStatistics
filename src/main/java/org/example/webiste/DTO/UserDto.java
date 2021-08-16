@@ -1,5 +1,7 @@
 package org.example.webiste.DTO;
 
+import javax.validation.constraints.*;
+
 public class UserDto {
 
     public UserDto(String name, int birthYear) {
@@ -18,8 +20,10 @@ public class UserDto {
 
     private long id;
 
+    @NotEmpty(message = "User's name cannot be empty")
     private String name;
 
+    @Min(value = 2, message = "Invalid birth year")
     private int birthYear;
 
     public long getId() {

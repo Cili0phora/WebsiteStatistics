@@ -1,13 +1,17 @@
 package org.example.webiste.controller;
 
 import org.example.webiste.DTO.UserDto;
+import org.example.webiste.exception.UserAlreadyExistsException;
 import org.example.webiste.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/user")
@@ -17,16 +21,19 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/registration")
-    public String showRegistrationPage(Model model) {
-        UserDto userDto = new UserDto();
-        model.addAttribute("user", userDto);
+    public String showRegistrationPage(UserDto dto, Model model) {
+        model.addAttribute("user", dto);
         return "registration";
     }
 
     @PostMapping("/create")
     public String register (
-            @ModelAttribute UserDto dto, Model model
-    ) {
+            @ModelAttribute("user") @Valid UserDto dto, BindingResult result, Model model
+    ) throws UserAlreadyExistsException {
+        if (result.hasErrors()) {
+            model.addAttribute("user", dto);
+            return "registration";
+        }
         userService.create(dto);
         return "redirect:list";
     }
